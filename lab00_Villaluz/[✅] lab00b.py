@@ -15,7 +15,7 @@ def cs12_string_count(n: int) -> int:
         n5 = cs12_string_count(n - 5)
         n8 = cs12_string_count(n - 8)
 
-        return 72*n1 - 1296*n2 - 3*n4 + 108*n5 - 2*n8
+        return 72*n1 - 1296*n2 - 3*n4 + 108*n5 - 2*n8 #Oh, so this wud still work even if n<8
 
 
 assert cs12_string_count(0) == 0
