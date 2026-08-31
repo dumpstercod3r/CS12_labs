@@ -3,13 +3,14 @@
 def outcome(a: int, b: int, c: int) -> str:
     if c == 0:
         return "Draw"
-    else:
-        daryll: int = a**c
-        jem: int = b**c
+    elif c%2 == 0:                          # exp is even
+        a, b = abs(a), abs(b)
+    else:                                   # exp is odd
+        pass
 
-        if daryll == jem:
-            return "Draw"
-        elif daryll > jem:
-            return "Daryll"
-        else:
-            return "Jem"
+    if a-b == 0:
+        return "Draw"
+    else:
+        return "Daryll" if a > b else "Jem"
+
+# Note: ** takes longer than just comparing bases
