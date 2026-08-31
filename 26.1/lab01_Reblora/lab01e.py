@@ -10,18 +10,22 @@ def simulate2048(grid: Grid, moves: str) -> Grid:
 
         end_turn: bool = False
 
-        for row in grid:
+        for r, row in enumerate(state):
             for c, col in enumerate(row):
-                if col == 0:
-                    row[c] = 1
+                if col == 0 and not end_turn:
+                    state[r][c] = 1
                     end_turn = True
+                    break
                 else:
                     pass
 
         if end_turn:
             grid = state
         else:
-            break
+            if grid == state:
+                pass
+            else:
+                break
 
     return grid
 
@@ -31,14 +35,14 @@ def change(grid: Grid, move: str) -> Grid:
 
     if move == "W" or move == "E":
         for row in grid:
-            shifted_row: str = shift(row)
+            shifted_row: list[int] = shift(row)
             merged_row: list[int] = merge(shifted_row, move)
             final_row: list[int] = fill(merged_row, n, move)
 
             state.append(final_row)
     else:
         for col in zip(*grid):
-            shifted_col: str = shift(list(col))
+            shifted_col: list[int] = shift(list(col))
             merged_col: list[int] = merge(shifted_col, "W" if move == "N" else "E")
             final_col: list[int] = fill(merged_col, n, "W" if move == "N" else "E")
 
@@ -48,30 +52,35 @@ def change(grid: Grid, move: str) -> Grid:
 
     return state
 
-def shift(row: list[int]) -> str:
-    return "".join(tuple(str(r) for r in row))
+def shift(row: list[int]) -> list[int]:
+    return [num for num in row if num != 0]
 
-def merge(row: str, move: str) -> list[int]:
+def merge(row: list[int], move: str) -> list[int]:
     merged_row: list[int] = []
     n: int = len(row)
 
-    if move == "W":
-        pass
-    else:
+    if move == "E":
         row = row[::-1]
+    else:
+        pass
 
     i: int = 0
 
     while i < n:
         if i == n-1:
-            merged_row.append(int(row[i]))
+            merged_row.append(row[i])
         elif row[i] == row[i+1]:
-            merged_row.append(int(row[i])*2)
+            merged_row.append(row[i]*2)
             i += 1
         else:
-            merged_row.append(int(row[i]))
+            merged_row.append(row[i])
 
         i += 1
+
+    if move == "E":
+        merged_row = merged_row[::-1]
+    else:
+        pass
 
     return merged_row
 
